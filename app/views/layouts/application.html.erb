@@ -3,6 +3,7 @@
   <head>
     <title>Instagram</title>
     <%= csrf_meta_tags %>
+
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -13,6 +14,7 @@
       <div class="container">
         <div class="logo">
           <a class="navbar-brand" href="/">
+            <%= fa_stacked_icon "camera inverse", base: "circle"%>
             Instagram
           </a>
         </div>
@@ -22,18 +24,28 @@
           </form>
         </div>
         <div class="user-section">
-          <a><i class="fa fa-compass"></i></a>
-          <a><i class="fa fa-heart"></i></a>
+          <a><i class="fa fa-compass">Dashboard</i></a>
+          <a><i class="fa fa-heart">Likes</i></a>
           
           <% if user_signed_in? %>
-            <a href="<%= destroy_user_session_path%>" data-method="delete">
-              <i class="fa fa-user"></i>
-            </a>
+          <%= button_to :'Logout', destroy_user_session_path, method: :delete %>
+           <!-- <a href="<%#= destroy_user_session_path%>" data-method="delete"> -->
+              <!-- <i class="fa fa-user">login</i> -->
+            <!-- </a> -->
+            <!---
+            <a href=”<%#= user_path(current_user)%>">
+              <i class="fa fa-user">Logout</i>
+            </a> 
+          -->
+            
           <% else %>
-            <a href="<%= user_path%>">
-              <i class="fa fa-sign-in"></i>
-            </a>
+            <%= button_to :'Sign-in', new_user_session_path, method: :GET %>
+            <!-- <a href="<%#= new_user_session_path%>"> -->
+              <!-- <i class="fa fa-sign-in">Logout</i> -->
+            <!-- </a> --> 
           <% end %>
+
+          <%#<%= button_to "logout", destroy_user_session_path, method: :delete %>  
 
         </div>
       </div>

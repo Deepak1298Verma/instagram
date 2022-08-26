@@ -1,32 +1,43 @@
 class UsersController < ApplicationController
-	def show	
-  	end
+    def show
+        @user = User.find(params[:id])
+        @posts = @user.posts.order(created_at: :desc)
+    end
 
-  	def edit
-  		@user = User.find(params[:id])	
-  	end
+    def new
+        @user = User.new
+    end
 
-  	def update
-	  current_user.update(params[:id])
-	  redirect_to current_user
-	end
+    def create
+        @user = User.create(params[:id])
+        @user.saveabctech@gmail.com
+        redirect_to root_path
+    end
 
-	def update
-    @user = User.find(params[:id])
+    def edit
+        @users = User.find(params[:id])        
+    end
 
-	    respond_to do |format|
-		    if @user.update_attributes(user_params)
-		        format.html { redirect_to @user, notice: 'Cart was successfully updated.' }
-		        format.json { render :show, status: :ok, location: @user }
-			else
-			        format.html { render :edit }
-			        format.json { render json: @cart.errors, status: :unprocessable_entity }
-			end
-		end
-	end
+    def update
+        current_user.update(params_user)
+        redirect_to current_user
+    end
 
-	private
-	def user_params
-	  params.require(:user).permit(:username, :name, :website, :bio, :email, :phone, :gender)
-	end
+    def follow
+      @user = User.find(params[:id])
+      current_user.followees << @user
+      redirect_back(fallback_location: user_path(@user))
+    end
+
+    def unfollow
+      @user = User.find(params[:id])
+      current_user.followed_users.find_by(followee_id: @user.id).destroy
+      redirect_back(fallback_location: user_path(@user))
+    end
+
+    private
+
+    def params_user
+        params.require(:user).permit(:username, :name, :website, :bio, :phone, :gender, :email, :avatar)
+    end
 end

@@ -1,0 +1,40 @@
+<style>
+  .post-show{
+  margin: 30px 5px 0;
+  border: 1px solid #dbdbdb;
+  .col-md-8{
+    padding: 0;
+    .image{
+      width: 100%;
+    }
+</style>
+
+
+<div class="post-show row">
+  <div class="col-md-8">
+    <%=image_tag @post.image, class: 'image' %>
+  </div>
+
+
+<div class="col-md-4">
+  <div class="user">
+    <%= link_to @post.user.username, user_path(@post.user), class: 'username' %>
+    <div class="avatar">
+      <% if @post.user.avatar.attached? %>
+        <%= link_to user_path(@post.user) do %>
+          <%#= image_tag @post.user.avatar %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+    <div class="description">
+      <%= @post.description %>
+    </div>
+  </div>
+
+  <div class="delete">
+    <% if current_user.posts.exists?(@post.id) %>
+      <%= button_to 'Delete', post_path(@post), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  </div>
+</div>
